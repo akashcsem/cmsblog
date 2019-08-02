@@ -73,8 +73,48 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+          <div class="container">
+            @auth
+              @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Success!</strong> {{ session()->get('success') }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+              @endif
+              <div class="row">
+                <div class="col-md-4">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <a href="#">Posts</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="{{ route('categories.index') }}">Categories</a>
+                    </li>
+                  </ul>
+                </div>
+
+
+                <div class="col-md-8">
+                  @yield('content')
+                </div>
+              </div>
+            @else
+              @yield('content')
+            @endauth
+          </div>
+
         </main>
     </div>
+
+    {{-- Scripts --}}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    @yield('scripts')
+
 </body>
 </html>
