@@ -119,7 +119,8 @@ class PostsController extends Controller
      */
     public function trashed()
     {
-        $trashed = Post::withTrashed()->get();
+        $trashed = Post::onlyTrashed()->get();
+        // $trashed = Post::withTrashed()->get();
         return view('posts.index')->with('posts', $trashed);
     }
 
@@ -145,5 +146,14 @@ class PostsController extends Controller
         }
 
         return redirect(route('myposts.index'));
+    }
+
+
+    public function restore($id)
+    {
+      $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+      $post->restore();
+      session()->flash('success', 'Post restore successfully.');
+      return redirect()->back();
     }
 }

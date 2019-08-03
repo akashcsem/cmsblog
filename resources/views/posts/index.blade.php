@@ -22,10 +22,19 @@
               <td>{{ $post->title }}</td>
               @if (!$post->trashed())
                 <td><a class="btn btn-info btn-sm" href="{{ route('myposts.edit', $post->id) }}">Edit</a></td>
-                <td>
+
               @else
-                <td colspan="2">
+                <td>
+                  <form action="{{ route('restore-posts', $post->id) }}" method="post">
+                    @method('PUT')
+                    @csrf
+                    <button type="submit" class="btn btn-info text-light btn-sm">
+                      Restore
+                    </button>
+                  </form>
+                </td>
               @endif
+              <td>
                 <form action="{{ route('myposts.destroy', $post->id) }}" method="post">
                   @method('delete')
                   @csrf
