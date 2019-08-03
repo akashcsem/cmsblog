@@ -9,9 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
+    @yield('styles')
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -88,10 +86,16 @@
                 <div class="col-md-4">
                   <ul class="list-group">
                     <li class="list-group-item">
-                      <a href="#">Posts</a>
+                      <a href="{{ route('myposts.index') }}">Posts</a>
                     </li>
                     <li class="list-group-item">
                       <a href="{{ route('categories.index') }}">Categories</a>
+                    </li>
+                  </ul>
+
+                  <ul class="list-group mt-3">
+                    <li class="list-group-item">
+                      <a href="{{ route('trashed-posts.index') }}">Trash Posts</a>
                     </li>
                   </ul>
                 </div>
@@ -110,10 +114,11 @@
     </div>
 
     {{-- Scripts --}}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> --}}
 
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 
 </body>
