@@ -1,6 +1,11 @@
 
 @extends('layouts.app')
 
+@section('title')
+  CMS BLOG - Category | {{ isset($category) ? 'Edit' : 'Create' }}
+@endsection
+
+
 @section('content')
 
   <div class="card card-default">
@@ -11,7 +16,7 @@
     <div class="card-body">
 
       @include('partials.error')
-      
+
       <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store')  }}" method="post">
         @csrf
         @if (isset($category))

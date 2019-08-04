@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title')
+  CMS BLOG - Home
+@endsection
+
+
 @section('content')
   <div class="row justify-content-center">
     <div class="col-12">

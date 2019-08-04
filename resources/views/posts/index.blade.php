@@ -1,6 +1,10 @@
 
 @extends('layouts.app')
 
+@section('title')
+  CMS BLOG - Post
+@endsection
+
 @section('content')
 
 

@@ -1,6 +1,11 @@
 
 @extends('layouts.app')
 
+@section('title')
+  CMS BLOG - Post | {{ isset($post) ? 'Edit' : 'Create' }}
+@endsection
+
+
 @section('content')
   <div class="card card-default">
     <div class="card-header">

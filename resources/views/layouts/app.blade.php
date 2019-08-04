@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title> @yield('title') </title>
 
     @yield('styles')
     <!-- Fonts -->
@@ -53,6 +53,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="{{ route('users.edit-profile') }}">
+                                       My Profile
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -73,6 +78,9 @@
         <main class="py-4">
           <div class="container">
             @auth
+
+
+
               @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                   {{ session()->get('success') }}
@@ -90,9 +98,22 @@
                   </button>
                 </div>
               @endif
+
+
+
+
+
+
+
+
               <div class="row">
                 <div class="col-md-4">
                   <ul class="list-group">
+                    @if (auth()->user()->isAdmin())
+                      <li class="list-group-item">
+                        <a href="{{ route('users.index') }}">Users</a>
+                      </li>
+                    @endif
                     <li class="list-group-item">
                       <a href="{{ route('myposts.index') }}">Posts</a>
                     </li>

@@ -1,6 +1,10 @@
 
 @extends('layouts.app')
 
+@section('title')
+  CMS BLOG - Tag | {{ isset($tag) ? 'Edit' : 'Create' }}
+@endsection
+
 @section('content')
 
   <div class="card card-default">
