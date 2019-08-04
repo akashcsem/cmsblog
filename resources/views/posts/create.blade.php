@@ -7,15 +7,7 @@
       {{ isset($post) ? 'Edit Post' : 'Create Post' }}
     </div>
 
-    @if ($errors->any())
-      <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-    @endif
+    @include('partials.error')
 
     <div class="card-body">
       <form action="{{ isset($post) ? route('myposts.update', $post->id) : route('myposts.store') }}" method="post" enctype="multipart/form-data">
@@ -53,9 +45,46 @@
 
         @if (isset($post))
           <div class="form-group mt-1">
-            <img src="{{ asset('posts/'. $post->image) }}" alt="{{ $post->image }}">
+            <img src="{{ asset('posts/'. $post->image) }}" style="width: 100%" alt="{{ $post->image }}">
           </div>
         @endif
+
+        <div class="form-group">
+          <label for="category_id">Category</label>
+          <select class="form-control form-control-sm" id="category_id" name="category_id">
+            @foreach ($categories as $category)
+              <option
+                @if (isset($post))
+                  @if ($category->id == $post->category_id)
+                    selected
+                  @endif
+                @endif
+               value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        @if ($tags->count() > 0)
+          <div class="form-group">
+            <label for="tags">Tags</label>
+
+              <select class="form-control dynamic-selector" id="tags" name="tags[]" multiple>
+                @foreach ($tags as $tag)
+                  <option
+                    @if (isset($post))
+                      @if ($post->hasTag($tag->id)))
+                        selected
+                      @endif
+                    @endif
+                   value="{{ $tag->id }}">{{ $tag->name }}</option>
+                @endforeach
+              </select>
+          </div>
+        @endif
+
+
+
+
 
 
         <div class="form-group">
@@ -72,17 +101,24 @@
 @section('styles')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
+
 @endsection
 
 @section('scripts')
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.js"> </script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 
   <script type="text/javascript">
     flatpickr('#published_at', {
       enableTime: true
     })
 
+    // set you selectbox class for awesome selectbox
+    $(document).ready(function() {
+        $('.dynamic-selector').select2();
+    });
 
   </script>
 @endsection

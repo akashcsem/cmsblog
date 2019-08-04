@@ -8,31 +8,31 @@
 
   <div class="card card-default">
     <div class="card-header">
-      Categories
-      <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm float-right">Add Category</a>
+      Tags
+      <a href="{{ route('tags.create') }}" class="btn btn-success btn-sm float-right">Add Tag</a>
     </div>
 
     <div class="card-body">
-      @if ($categories->count() > 0)
+      @if ($tags->count() > 0)
         <table class="table table-sm">
           <tr class="font-weight-bold">
             <th>Name</th>
             <th>Post count</th>
             <th>Action</th>
           </tr>
-          @foreach ($categories as $category)
+          @foreach ($tags as $tag)
             <tr>
-              <td>{{ $category->name }}</td>
-              <td>{{ $category->posts->count() }}</td>
+              <td>{{ $tag->name }}</td>
+              <td>{{ $tag->posts->count() }}</td>
               <td>
-                <a class="btn btn-info btn-sm" href="{{ route('categories.edit', $category->id) }}">Edit</a>
-                <button onclick="deleteCatetory({{ $category->id }})" class="btn btn-danger btn-sm">Delete</button onclick="deleteCatetory({{ $category->id }})">
+                <a class="btn btn-info btn-sm" href="{{ route('tags.edit', $tag->id) }}">Edit</a>
+                <button onclick="deleteTag({{ $tag->id }})" class="btn btn-danger btn-sm">Delete</button onclick="deleteTag({{ $tag->id }})">
               </td>
             </tr>
           @endforeach
         </table>
 
-        <form action="" method="post" id="deleteCatetoryForm">
+        <form action="" method="post" id="deleteTagForm">
           @method('delete')
           @csrf
           <!-- Modal -->
@@ -46,7 +46,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  Are you sure to delete this category?
+                  Are you sure to delete this tag?
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">No, Go Back</button>
@@ -57,7 +57,7 @@
           </div>
         </form>
       @else
-        <h3 class="text-center">No categories yet.</h3>
+        <h3 class="text-center">No Tags yet.</h3>
       @endif
     </div>
   </div>
@@ -66,9 +66,9 @@
 
 @section('scripts')
   <script type="text/javascript">
-    function deleteCatetory(id) {
-      var form = document.getElementById('deleteCatetoryForm');
-      form.action = '/categories/' + id;
+    function deleteTag(id) {
+      var form = document.getElementById('deleteTagForm');
+      form.action = '/tags/' + id;
       $('#deleteModal').modal('show');
       // console.log('Deleting ', form);
     }

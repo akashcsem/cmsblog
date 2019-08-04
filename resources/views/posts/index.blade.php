@@ -2,6 +2,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
   <div class="card card-default">
     <div class="card-header">
       Posts
@@ -14,12 +17,14 @@
           <tr>
             <th>Image</th>
             <th>Title</th>
+            <th>Category</th>
             <th colspan="2">Action</th>
           </tr>
           @foreach ($posts as $post)
             <tr>
               <td><img src="{{ asset('posts/'. $post->image) }}" style="width: 120px; height: 60px" alt="{{ $post->image }}"> </td>
               <td>{{ $post->title }}</td>
+              <td><a href="{{ route('categories.edit', $post->category_id) }}">{{ $post->category->name }}</a> </td>
               @if (!$post->trashed())
                 <td><a class="btn btn-info btn-sm" href="{{ route('myposts.edit', $post->id) }}">Edit</a></td>
 
@@ -33,6 +38,7 @@
                     </button>
                   </form>
                 </td>
+
               @endif
               <td>
                 <form action="{{ route('myposts.destroy', $post->id) }}" method="post">

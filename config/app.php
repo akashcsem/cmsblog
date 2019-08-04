@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+         NotificationChannels\FacebookPoster\FacebookPosterServiceProvider::class,
         /*
          * Application Service Providers...
          */

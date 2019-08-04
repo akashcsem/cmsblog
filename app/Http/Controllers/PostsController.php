@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Posts\CreatePostRequest;
 use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
+use App\Category;
+use App\Tag;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('verifyCategoriesCount')->only('create', 'store');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +32,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')
+        ->with('categories', Category::all())
+        ->with('tags', Tag::all());
     }
 
     /**
@@ -37,6 +45,7 @@ class PostsController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
+      // dd($request->all());
         // store image
         if($request->hasFile('image')) {
           $imagename = time().'.'.$request->file('image')->getClientOriginalExtension();
@@ -45,13 +54,19 @@ class PostsController extends Controller
         }
 
         // store data into database
-        Post::create([
+        $post = Post::create([
           'title'        => $request->title,
           'description'  => $request->description,
           'content'      => $request->content,
           'image'        => $imagename,
+          'category_id'  => $request->category_id,
           'published_at' => $request->published_at
         ]);
+
+        if ($request->tags) {
+          $post->tags()->attach($request->tags);
+        }
+
         session()->flash('success', 'Post added successfully.');
         return redirect(route('myposts.index'));
     }
@@ -64,7 +79,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        // $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+        // return $post->description;
     }
 
     /**
@@ -76,7 +92,10 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::where('id', $id)->firstOrFail();
-        return view('posts.create')->with('post', $post);
+        return view('posts.create')
+                ->with('post', $post)
+                ->with('categories', Category::all())
+                ->with('tags', Tag::all());
     }
 
     /**
@@ -105,7 +124,12 @@ class PostsController extends Controller
 
           $data['image'] = $imagename;
         }
+
         $post->update($data);
+
+        if ($request->tags) {
+          $post->tags()->sync($request->tags);
+        }
 
         session()->flash('success', 'Post updated successfully.');
         return redirect(route('myposts.index'));

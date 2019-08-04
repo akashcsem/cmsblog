@@ -7,4 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $fillable = ['name'];
+
+
+    // one to many relationship with post table
+    public function posts()
+    {
+      return $this->hasMany(Post::class);
+    }
 }

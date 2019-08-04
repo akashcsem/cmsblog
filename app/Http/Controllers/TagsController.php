@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Categories\CreateCategoryRequest;
-use App\Http\Requests\Categories\UpdateCategoryRequest;
-use App\Category;
+use App\Http\Requests\Tags\CreateTagRequest;
+use App\Http\Requests\Tags\UpdateTagRequest;
+use App\Tag;
 
 
-class CategoriesController extends Controller
+class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('categories.index')->with('categories', Category::all());
+        return view('tags.index')->with('tags', Tag::all());
     }
 
     /**
@@ -27,7 +27,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('tags.create');
     }
 
     /**
@@ -36,14 +36,14 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCategoryRequest $request)
+    public function store(CreateTagRequest $request)
     {
 
-        Category::create([
+        Tag::create([
           'name' => $request->name
         ]);
-        session()->flash('success', 'Category added successfully.');
-        return redirect(route('categories.index'));
+        session()->flash('success', 'Tag added successfully.');
+        return redirect(route('tags.index'));
     }
 
     /**
@@ -63,9 +63,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Tag $tag)
     {
-        return view('categories.create')->with('category', $category);
+        return view('tags.create')->with('tag', $tag);
     }
 
     /**
@@ -75,14 +75,14 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
-        $category->name = $request->name;
-        $category->save();
+        $tag->name = $request->name;
+        $tag->save();
 
-        session()->flash('success', 'Category updated successfully.');
+        session()->flash('success', 'Tag updated successfully.');
 
-        return redirect(route('categories.index'));
+        return redirect(route('tags.index'));
     }
 
     /**
@@ -91,16 +91,16 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Tag $tag)
     {
-        //  Prevent category delete
-        if ($category->posts->count() > 0) {
-          session()->flash('error', 'Category can not be deleted, because it is associated with some posts');
+        //  Prevent tag delete
+        if ($tag->posts->count() > 0) {
+          session()->flash('error', 'Tag can not be deleted, because it is associated with some posts');
           return redirect()->back();
         }
 
-        $category->delete();
-        session()->flash('success', 'Category deleted successfully.');
-        return redirect(route('categories.index'));
+        $tag->delete();
+        session()->flash('success', 'Tag deleted successfully.');
+        return redirect(route('tags.index'));
     }
 }
