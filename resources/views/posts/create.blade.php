@@ -117,7 +117,8 @@
 
   <script type="text/javascript">
     flatpickr('#published_at', {
-      enableTime: true
+      enableTime: true,
+      enableSeconds: true
     })
 
     // set you selectbox class for awesome selectbox

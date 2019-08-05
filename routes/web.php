@@ -12,7 +12,10 @@ use App\Http\Controllers\Blog\PostsController;
 */
 
 Route::get('/', 'WelcomeController@index')->name('welcome');
-Route::get('/blog/posts/{id}', [PostsController::class, 'show'])->name('blog.show');
+Route::get('/blog/post/{post}', [PostsController::class, 'show'])->name('blog.show');
+Route::get('/blog/category/{category}', 'Blog\PostsController@category')->name('blog.category');
+Route::get('/blog/tag/{tag}', 'Blog\PostsController@tag')->name('blog.tag');
+
 
 Auth::routes();
 

@@ -21,6 +21,8 @@
   </div>
 
 
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d486dde6d10b3a4"></script>
+
 
   <div class="content container">
     <div class="title mt-5">
@@ -28,12 +30,19 @@
     </div>
     {!! $post->content !!}
 
+
+
     <div class="tags my-5">
       <strong class="h4">Tags </strong>
       @foreach ($post->tags as $tag)
-        <span style="letter-spacing: 1.5px" class="badge badge-pill badge-secondary mr-2 px-2 py-1">{{ $tag->name }}</span>
+        <span style="letter-spacing: 1.5px" class="badge badge-pill badge-secondary mr-2 px-2 py-1"><a style="text-decoration: none; color: white" href="{{ route('blog.tag', $tag->id) }}">{{ $tag->name }}</a> </span>
       @endforeach
     </div>
+
+
+
+
+
 
     <hr>
     <div id="disqus_thread"></div>
@@ -63,4 +72,8 @@
 
   </div>
 </div>
+@endsection
+
+@section('scripts')
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d486dde6d10b3a4"></script>
 @endsection

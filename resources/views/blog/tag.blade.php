@@ -3,7 +3,7 @@
 @extends('layouts.blog')
 
 @section('title')
-  Blog - Home
+  Blog - {{ $tag->name }}
 @endsection
 
 
@@ -13,8 +13,8 @@
     <img src="{{ asset('img/banner.jpg') }}" width="100%" height="250px" alt="">
     <div class="centered">
 
-      <h1>Todays Blog</h1>
-      <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptates!</h3>
+      <h1>{{ $tag->name }}</h1>
+      {{-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptates!</h3> --}}
     </div>
   </div>
 
@@ -27,7 +27,7 @@
 
 
     <div class="row">
-      <h1 class="my-4 col-12 text-center" style="color: #3EBCEE"> Latest Posts </h1>
+      <h1 class="my-4 col-12 text-center" style="color: #3EBCEE"> All {{ $tag->name }} Post</h1>
 
 
       <!-- Blog Post -->
@@ -43,10 +43,10 @@
             <div class="card-body">
               <h4 class="card-title font-weight-normal">{{ $post->title }}</h4>
               <div class="text-muted mb-3 author" style="margin-top: -15px;">
-                Posted on {{ date('d-M-Y', strtotime($post->published_at))}}
+                Posted on {{ date('d-M-Y', strtotime($post->published_at)) }}
                 <strong style="color: black">by, {{ $post->user->name }}</strong>
               </div>
-              <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<a class="btn btn-primary btn-sm ml-3" href="{{ route('blog.show', $post->id) }}">Read More...</a></p>
+              <p class="text-left">{{ $post->description }}<a class="btn btn-primary btn-sm" href="{{ route('blog.show', $post->id) }}">Read More...</a></p>
             </div>
           </div>
 

@@ -106,6 +106,7 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="{{ asset('js/app.js') }}"></script>
+  @yield('scripts')
   {{-- <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script> --}}
 
 </body>
