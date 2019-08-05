@@ -1,99 +1,124 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+@extends('layouts.blog')
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+@section('title')
+  Blog - Home
+@endsection
 
-            .full-height {
-                height: 100vh;
-            }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+@section('content')
 
-            .position-ref {
-                position: relative;
-            }
+  <div class="row my-0 py-0 banner" style="margin-top: -5px">
+    <img src="{{ asset('img/banner.jpg') }}" width="100%" height="250px" alt="">
+    <div class="centered">
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+      <h1>Todays Blog</h1>
+      <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptates!</h3>
+    </div>
+  </div>
 
-            .content {
-                text-align: center;
-            }
+<div class="container">
+  <div class="row">
 
-            .title {
-                font-size: 84px;
-            }
+  <!-- Blog Entries Column -->
+  <div class="col-md-8">
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+    <div class="row">
+      <h1 class="my-4 col-12 text-center" style="color: #3EBCEE"> Latest Posts </h1>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+      <!-- Blog Post -->
+      @foreach ($posts as $post)
+        <div class="col-md-6">
+          <div class="card mb-4 mx-3">
+
+            <a href="{{ route('blog.show', $post->id) }}">
+              <img class="card-img-top" height="180px" src="{{ asset('posts/' . $post->image) }}" alt="Card image cap">
+            </a>
+
+
+            <div class="card-body">
+              <h4 class="card-title font-weight-normal">{{ $post->title }}</h4>
+              <div class="text-muted mb-3 author" style="margin-top: -15px;">
+                Posted on {{ date('d-M-Y', strtotime($post->published_at))}}
+                <strong style="color: black">by, {{ $post->user->name }}</strong>
+              </div>
+              <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<a class="btn btn-primary btn-sm ml-3" href="{{ route('blog.show', $post->id) }}">Read More...</a></p>
             </div>
+          </div>
+
         </div>
-    </body>
-</html>
+
+      @endforeach
+      <!-- End Blog Post -->
+
+
+    </div>
+
+    <!-- Pagination -->
+    <ul class="pagination mb-4">
+      <li class="page-item">
+        <a class="page-link" href="#">&larr; Older</a>
+      </li>
+      <li class="page-item ml-auto">
+        <a class="page-link" href="#">Newer &rarr;</a>
+      </li>
+    </ul>
+
+  </div>
+
+
+
+
+
+  <!-- Sidebar Widgets Column -->
+  <div class="col-md-4">
+
+    <!-- Search Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Search</h5>
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">Search</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Categories</h5>
+      <div class="card-body">
+        <div class="row">
+          @foreach ($categories as $category)
+            <div class="width-50"><a class="text-muted" href="#">{{ $category->name }}</a></div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+
+    <!-- Tags Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Tags</h5>
+      <div class="card-body">
+        <div class="row">
+          @foreach ($tags as $tag)
+            <div class="width-33"><a class="text-muted" href="#">{{ $tag->name }}</a></div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- End Sidebar Widgets Column -->
+
+  </div>
+
+</div>
+@endsection
